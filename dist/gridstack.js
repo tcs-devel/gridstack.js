@@ -649,7 +649,6 @@
 
         this.grid = new GridStackEngine(this.opts.width, function(nodes, detachNode) {
             detachNode = typeof detachNode === 'undefined' ? true : detachNode;
-            var maxHeight = 0;
             _.each(nodes, function(n) {
                 if (detachNode && n._id === null) {
                     if (n.el) {
@@ -661,10 +660,9 @@
                         .attr('data-gs-y', n.y)
                         .attr('data-gs-width', n.width)
                         .attr('data-gs-height', n.height);
-                    maxHeight = Math.max(maxHeight, n.y + n.height);
                 }
             });
-            self._updateStyles(maxHeight + 10);
+            self._updateStyles(self.opts.height + 10);
         }, this.opts.float, this.opts.height);
 
         if (this.opts.auto) {
@@ -1066,6 +1064,11 @@
 
             if (event.type == 'drag') {
                 if (x < 0 || x >= self.grid.width || y < 0 || (!self.grid.float && y > self.grid.getGridHeight())) {
+                    // TCS: Hack, don't do anything when nodes are dragged outside of the grid.
+                    //      This prevents an issue where dragging nodes outside of the browser window's bounds
+                    //      causes the other nodes to be misplaced.
+                    return;
+                    /*
                     if (!node._temporaryRemoved) {
                         if (self.opts.removable === true) {
                             self._setupRemovingTimeout(el);
@@ -1081,6 +1084,7 @@
 
                         node._temporaryRemoved = true;
                     }
+                    */
                 } else {
                     self._clearRemovingTimeout(el);
 
