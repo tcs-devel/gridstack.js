@@ -1064,6 +1064,11 @@
 
             if (event.type == 'drag') {
                 if (x < 0 || x >= self.grid.width || y < 0 || (!self.grid.float && y > self.grid.getGridHeight())) {
+                    // TCS: Hack, don't do anything when nodes are dragged outside of the grid.
+                    //      This prevents an issue where dragging nodes outside of the browser window's bounds
+                    //      causes the other nodes to be misplaced.
+                    return;
+                    /*
                     if (!node._temporaryRemoved) {
                         if (self.opts.removable === true) {
                             self._setupRemovingTimeout(el);
@@ -1079,6 +1084,7 @@
 
                         node._temporaryRemoved = true;
                     }
+                    */
                 } else {
                     self._clearRemovingTimeout(el);
 
