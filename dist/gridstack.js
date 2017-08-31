@@ -1587,6 +1587,14 @@
         return Math.round(this.container.outerWidth() / this.opts.width);
     };
 
+    GridStack.prototype.gridHeight = function(val, noUpdate) {
+        this.grid.height = val;
+
+        if (!noUpdate) {
+            this._updateStyles();
+        }
+    };
+
     GridStack.prototype.getCellFromPixel = function(position, useOffset) {
         var containerPos = (typeof useOffset != 'undefined' && useOffset) ?
             this.container.offset() : this.container.position();
