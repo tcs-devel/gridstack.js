@@ -649,7 +649,6 @@
 
         this.grid = new GridStackEngine(this.opts.width, function(nodes, detachNode) {
             detachNode = typeof detachNode === 'undefined' ? true : detachNode;
-            var maxHeight = 0;
             _.each(nodes, function(n) {
                 if (detachNode && n._id === null) {
                     if (n.el) {
@@ -661,10 +660,9 @@
                         .attr('data-gs-y', n.y)
                         .attr('data-gs-width', n.width)
                         .attr('data-gs-height', n.height);
-                    maxHeight = Math.max(maxHeight, n.y + n.height);
                 }
             });
-            self._updateStyles(maxHeight + 10);
+            self._updateStyles(self.opts.height + 10);
         }, this.opts.float, this.opts.height);
 
         if (this.opts.auto) {
